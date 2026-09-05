@@ -13,9 +13,7 @@ class ClientDAO {
 
     public function insert(Client $client) {
         $sqlEmail = "SELECT id FROM clients WHERE email = :email";
-
         $stmtEmail = $this->conn->prepare($sqlEmail);
-
         $stmtEmail->bindValue(':email', $client->getEmail());
         $stmtEmail->execute();
 
@@ -24,9 +22,7 @@ class ClientDAO {
         }
 
         $sqlCpf = "SELECT id FROM clients WHERE cpf = :cpf";
-
         $stmtCpf = $this->conn->prepare($sqlCpf);
-
         $stmtCpf->bindValue(':cpf', $client->getCpf());
         $stmtCpf->execute();
 
@@ -74,6 +70,23 @@ class ClientDAO {
         }
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getById($id) {
+        $sql = "SELECT id, name, email FROM clients WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateProfile($id, $name, $email) {
+        $sql = "UPDATE clients SET name = :name, email = :email WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':name', $name);
+        $stmt->bindValue(':email', $email);
+        $stmt->bindValue(':id', $id);
+        return $stmt->execute();
     }
 }
 ?>
