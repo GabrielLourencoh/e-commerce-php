@@ -23,6 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
     <header class="bg-white shadow-sm border-b border-gray-200">
@@ -30,6 +31,10 @@
             <a href="index.php" class="text-2xl font-bold text-blue-600">E-commerce</a>
 
             <div class="flex items-center space-x-4">
+                <a href="src/views/public/cart.php" class="text-sm font-medium text-gray-700 hover:text-blue-600">
+                    Meu Carrinho
+                </a>
+
                 <?php if (isset($_SESSION['client_id'])): ?>
                     <span class="text-sm font-medium text-gray-700">Olá, <?= $_SESSION['client_name'] ?></span>
                     <a href="src/controllers/clients/LogoutController.php" class="text-sm text-red-600 hover:underline">Sair</a>
@@ -60,15 +65,10 @@
                             <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
                                 <span class="text-lg font-bold text-gray-900">R$ <?= number_format($product['price'], 2, ',', '.') ?></span>
                                 
-                                <?php if (isset($_SESSION['client_id'])): ?>
-                                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded transition-colors">
-                                        Comprar
-                                    </button>
-                                <?php else: ?>
-                                    <a href="src/views/public/login.php" class="bg-gray-800 hover:bg-gray-900 text-white text-xs font-semibold px-3 py-1.5 rounded transition-colors">
-                                        Comprar
-                                    </a>
-                                <?php endif; ?>
+                                <!-- Botão chama a função AJAX de adicionar ao carrinho -->
+                                <button onclick="addToCart(<?= $product['id'] ?>)" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded transition-colors">
+                                    Comprar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -76,5 +76,29 @@
             </div>
         <?php endif; ?>
     </main>
+    <script>
+        function addToCart(productId) {
+            $.ajax({
+                url: 'src/controllers/cart/CartController.php',
+                type: 'POST',
+                data: {
+                    action: 'add',
+                    product_id: productId,
+                    quantity: 1
+                },
+                success: function(response) {
+                    if (response.trim() === 'sucesso') {
+                        // Redireciona para a página do carrinho ao clicar em comprar
+                        window.location.href = 'src/views/public/cart.php';
+                    } else {
+                        alert(response);
+                    }
+                },
+                error: function() {
+                    alert('Erro ao adicionar produto ao carrinho.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
