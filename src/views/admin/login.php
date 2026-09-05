@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="bg-gray-900 flex items-center justify-center min-h-screen py-10">
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">Painel Administrativo</h2>
+        <p class="text-sm text-gray-500 mb-6 text-center">Informe suas credenciais para acessar</p>
+
+        <div id="mensagem" class="hidden mb-4 p-3 rounded text-sm font-medium text-center"></div>
+        <form id="form-admin-login" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                <input type="email" name="email" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-gray-800">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                <input type="password" name="password" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-gray-800">
+            </div>
+
+            <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-medium py-2.5 rounded text-sm transition-colors mt-2">
+                Acessar Painel
+            </button>
+        </form>
+    </div>
+    <script>
+        $('#form-admin-login').submit(function(e) {
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: '../../controllers/admins/LoginController.php',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.trim() === 'sucesso') {
+                        window.location.href = 'dashboard.php';
+                    } else {
+                        $('#mensagem')
+                            .text(response)
+                            .removeClass('hidden bg-green-100 text-green-700')
+                            .addClass('bg-red-100 text-red-700');
+                    }
+                },
+                error: function() {
+                    $('#mensagem')
+                        .text('Erro ao tentar conectar ao servidor.')
+                        .removeClass('hidden bg-green-100 text-green-700')
+                        .addClass('bg-red-100 text-red-700');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
