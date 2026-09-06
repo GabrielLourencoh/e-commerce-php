@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded text-sm transition-colors mt-4">
+            <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-2.5 rounded text-sm transition-colors mt-4">
                 Cadastrar
             </button>
         </form>

@@ -56,7 +56,7 @@
                                 <td class="p-4"><?= $client['city'] . '/' . $client['state'] ?? '-' ?></td>
                                 <td class="p-4"><?= date('d/m/Y H:i', strtotime($client['created_at'])) ?></td>
                                 <td class="p-4 text-center">
-                                    <a href="view.php?id=<?= $client['id'] ?>" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 rounded">
+                                    <a href="view.php?id=<?= $client['id'] ?>" class="bg-gray-800 hover:bg-gray-900 text-white text-xs px-3 py-1.5 rounded">
                                         Detalhes
                                     </a>
                                 </td>

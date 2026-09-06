@@ -62,7 +62,7 @@
                                     </span>
                                 </td>
                                 <td class="p-4 text-center">
-                                    <a href="view.php?id=<?= $order['id'] ?>" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 rounded">
+                                    <a href="view.php?id=<?= $order['id'] ?>" class="bg-gray-800 hover:bg-gray-900 text-white text-xs px-3 py-1.5 rounded">
                                         Detalhes
                                     </a>
                                 </td>

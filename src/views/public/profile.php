@@ -35,8 +35,8 @@
         }
     }
 
-// Carrega os dados atuais
-$client = $clientDAO->getById($clientId);
+    // Carrega os dados atuais
+    $client = $clientDAO->getById($clientId);
 ?>
 
 
@@ -78,7 +78,7 @@ $client = $clientDAO->getById($clientId);
                         class="w-full border border-gray-300 rounded p-2 text-sm focus:outline-none focus:border-blue-600">
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded text-sm transition-colors">
+                <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 rounded text-sm transition-colors">
                     Salvar Alterações
                 </button>
             </form>
