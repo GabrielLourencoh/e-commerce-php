@@ -10,7 +10,6 @@
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen py-10">
     <div class="max-w-2xl w-full bg-white p-8 rounded-lg shadow-md">
-
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Cadastro</h2>
 
         <div id="mensagem" class="hidden mb-4 p-3 rounded text-sm font-medium text-center"></div>
@@ -36,7 +35,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
-                    <input type="text" name="phone" placeholder="(00) 00000-0000" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+                    <input type="text" name="phone" maxlength="15" placeholder="(00) 00000-0000" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
                 </div>
             </div>
             <hr class="my-4 border-gray-200">
@@ -88,6 +87,53 @@
         </p>
     </div>
     <script>
+        // Máscaras para formatação dos dados enviados 
+        function applyMasks() {
+            $('input[name="cpf"]').on('input', function() {
+                var v = $(this).val().replace(/\D/g, '');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d)/, '$1.$2');
+                v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                $(this).val(v);
+            });
+
+            $('input[name="cep"]').on('input', function() {
+                var v = $(this).val().replace(/\D/g, '');
+                v = v.replace(/(\d{5})(\d)/, '$1-$2');
+                $(this).val(v);
+            });
+
+            $('input[name="cep"]').on('blur', function() {
+                var cep = $(this).val().replace(/\D/g, '');
+                if (cep.length === 8) {
+                    $.getJSON('https://viacep.com.br/ws/' + cep + '/json/', function(data) {
+                        if (!data.erro) {
+                            $('input[name="address"]').val(data.logradouro || '');
+                            $('input[name="neighborhood"]').val(data.bairro || '');
+                            $('input[name="city"]').val(data.localidade || '');
+                            $('input[name="state"]').val(data.uf || '');
+                        }
+                    });
+                }
+            });
+
+            $('input[name="phone"]').on('input', function() {
+                var v = $(this).val().replace(/\D/g, '');
+                if (v.length <= 10) {
+                    v = v.replace(/(\d{2})(\d)/, '($1) $2');
+                    v = v.replace(/(\d{4})(\d)/, '$1-$2');
+                } else {
+                    v = v.replace(/(\d{2})(\d)/, '($1) $2');
+                    v = v.replace(/(\d{5})(\d)/, '$1-$2');
+                }
+                $(this).val(v);
+            });
+
+            $('input[name="state"]').on('input', function() {
+                $(this).val($(this).val().toUpperCase().replace(/[^A-Z]/g, '').slice(0, 2));
+            });
+        }
+
         $('#form-register').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
@@ -120,6 +166,8 @@
                 }
             });
         });
+
+        applyMasks();
     </script>
 </body>
 </html>
