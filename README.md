@@ -11,7 +11,15 @@ e-commerce/
 ├── config/
 │   └── Connection.php          # Conexão PDO com MySQL
 ├── database/
-│   └── schema.sql              # Script completo do banco (CREATE DATABASE, TABLES, FKs, INSERTS)
+│   ├── schema.sql              # Apenas CREATE TABLEs (estrutura pura)
+│   └── seeds/                  # Dados iniciais (seeds) organizados por tabela
+│       ├── seed_all.sql        # Master file - executa todos na ordem correta (FKs)
+│       ├── categories/seed_categories.sql
+│       ├── products/seed_products.sql
+│       ├── clients/seed_clients.sql
+│       ├── admins/seed_admins.sql
+│       ├── orders/seed_orders.sql
+│       └── order_items/seed_order_items.sql
 ├── src/
 │   ├── controllers/            # Controladores
 │   │   ├── admins/
@@ -64,7 +72,8 @@ e-commerce/
 
 - **Catálogo de produtos** (`/`) — lista produtos ativos com imagem, nome, preço, categoria; busca via JOIN `products` + `categories`
 - **Carrinho de compras** (`/src/views/public/cart.php`) — adiciona/remove/altera quantidade via AJAX; dados salvos em `$_SESSION['cart']`
-- **Login/Cadastro de cliente** — senha com `password_hash`/`password_verify`; sessão guarda `client_id`, `client_name`
+- **Login/Cadastro de cliente** — senha com `password_hash`/`password_verify` (BCrypt); sessão guarda `client_id`, `client_name`
+- **Cadastro com máscaras e autocomplete** — CPF (`000.000.000-00`), telefone (`(00) 00000-0000`), CEP (`00000-000`), UF (maiúsculo); **ViaCEP** preenche endereço/bairro/cidade/estado ao sair do campo CEP
 - **Perfil do cliente** — visualiza e edita dados pessoais + endereço
 - **Finalização de pedido** — cria registro em `orders` + itens em `order_items`; guarda `unit_price` no momento da compra (histórico imutável); limpa carrinho após sucesso
 
@@ -78,9 +87,11 @@ e-commerce/
 
 ---
 
-## Banco de Dados (schema.sql)
+## Banco de Dados
 
-O arquivo `database/schema.sql`:
+### Estrutura (`database/schema.sql`)
+
+Apenas `CREATE TABLE` — sem IDs explícitos (usa `AUTO_INCREMENT`), sem dados.
 
 ```sql
 CREATE DATABASE IF NOT EXISTS ecommerce_db;
@@ -115,7 +126,7 @@ CREATE TABLE clients (
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     cpf VARCHAR(14) NULL UNIQUE,
-    phone VARCHAR(20) NULL,
+    phone VARCHAR(15) NULL,
     address VARCHAR(200) NULL,
     number VARCHAR(10) NULL,
     complement VARCHAR(100) NULL,
@@ -161,7 +172,82 @@ CREATE TABLE order_items (
 );
 ```
 
-**Dados iniciais:** 3 categorias, 5 produtos de exemplo, 2 admins (`admin@loja.com` / `admin123` e `lourenco@loja.com` / `admin123`).
+### Seeds (`database/seeds/`)
+
+Dados de exemplo organizados por tabela (sem IDs, `AUTO_INCREMENT` cuida):
+
+```
+database/seeds/
+├── seed_all.sql                    # Master - roda tudo na ordem (FKs primeiro)
+├── categories/seed_categories.sql  # 10 categorias
+├── products/seed_products.sql      # 20 produtos
+├── clients/seed_clients.sql        # 10 clientes (senha = "password" hashed)
+├── admins/seed_admins.sql          # 2 admins originais
+├── orders/seed_orders.sql          # 10 pedidos com status variados
+└── order_items/seed_order_items.sql # 14 itens
+```
+
+**Como popular o banco:**
+
+```bash
+# 1. Cria estrutura
+mysql -u root -p < database/schema.sql
+
+# 2. Popula dados (ordem correta automática via master)
+mysql -u root -p ecommerce_db < database/seeds/seed_all.sql
+```
+
+Ou abra `database/seeds/seed_all.sql` no MySQL Workbench e execute (⚡).
+
+**Ou rode seed por seed na ordem de dependência (FKs primeiro) via terminal:**
+
+```bash
+mysql -u root -p ecommerce_db < database/seeds/categories/seed_categories.sql
+mysql -u root -p ecommerce_db < database/seeds/products/seed_products.sql
+mysql -u root -p ecommerce_db < database/seeds/clients/seed_clients.sql
+mysql -u root -p ecommerce_db < database/seeds/admins/seed_admins.sql
+mysql -u root -p ecommerce_db < database/seeds/orders/seed_orders.sql
+mysql -u root -p ecommerce_db < database/seeds/order_items/seed_order_items.sql
+```
+
+**Ou abra cada arquivo no MySQL Workbench** (File → Open SQL Script → Execute ⚡) na mesma ordem acima.
+
+**Dados incluídos:** 10 categorias, 20 produtos, 10 clientes, 2 admins, 10 pedidos, 14 itens.
+
+---
+
+## Seeds (Dados de Exemplo)
+
+Localizados em `database/seeds/` — um arquivo por tabela + `seed_all.sql` master.
+
+```bash
+# Rodar tudo (ordem correta de FK)
+mysql -u root -p ecommerce_db < database/seeds/seed_all.sql
+
+# Ou rodar individualmente se precisar
+mysql -u root -p ecommerce_db < database/seeds/categories/seed_categories.sql
+mysql -u root -p ecommerce_db < database/seeds/products/seed_products.sql
+# ...
+```
+
+## Segurança: Hash de Senhas
+
+- **Cadastro** (`ClientController.php`): `password_hash($_POST['password'], PASSWORD_DEFAULT)` → BCrypt custo 10
+- **Login** (`ClientDAO::login()`): busca por email → `password_verify($input, $hash)`
+- **Admins**: seeds atuais usam senha pura (`admin123`)
+
+---
+
+## Frontend: Máscaras & ViaCEP (`register.php`)
+
+| Campo    | Máscara (jQuery, input event)         | Validação        |
+| -------- | ------------------------------------- | ---------------- |
+| CPF      | `000.000.000-00`                      | `maxlength="14"` |
+| Telefone | `(00) 00000-0000` ou `(00) 0000-0000` | `maxlength="15"` |
+| CEP      | `00000-000`                           | `maxlength="9"`  |
+| UF       | `SP` (maiúsculo, 2 letras)            | `maxlength="2"`  |
+
+**ViaCEP**: se 8 dígitos → `GET https://viacep.com.br/ws/{cep}/json/` → preenche endereço, bairro, cidade, estado automaticamente.
 
 ---
 
@@ -203,19 +289,21 @@ cd C:\xampp\htdocs\ETEC\PWIII\e-commerce
 
 # 2. Crie o banco e tabelas (MySQL precisa estar rodando)
 mysql -u root -p < database/schema.sql
-# (ou abra o MySQL Workbench, conecte no localhost:3306, execute o script)
 
-# 3. Ajuste config/Connection.php se suas credenciais forem diferentes:
+# 3. Popule com dados de exemplo (seeds)
+mysql -u root -p ecommerce_db < database/seeds/seed_all.sql
+
+# 4. Ajuste config/Connection.php se suas credenciais forem diferentes:
 #    private $host = "localhost";
 #    private $banco = "ecommerce_db";
 #    private $usuario = "root";
 #    private $senha = "";        # senha do seu MySQL (vazio no XAMPP padrão)
 #    private $porta = "3306";
 
-# 4. Suba o servidor embutido na pasta raiz
+# 5. Suba o servidor embutido na pasta raiz
 php -S localhost:8000
 
-# 5. Acesse no navegador
+# 6. Acesse no navegador
 #    http://localhost:8000           → catálogo (index.php)
 #    http://localhost:8000/src/views/admin/login.php  → painel admin
 ```
@@ -243,7 +331,9 @@ php -S localhost:8000
    - Conexão: `Local Instance 3306` (usuário `root`, senha vazia por padrão)
    - Menu _File_ → _Open SQL Script_ → selecione `database/schema.sql`
    - Clique no raio (⚡) _Execute_ ou `Ctrl+Shift+Enter`
-   - Verifique no painel _Schemas_ → `ecommerce_db` → _Tables_: devem aparecer 6 tabelas
+   - Menu _File_ → _Open SQL Script_ → selecione `database/seeds/seed_all.sql`
+   - Execute novamente (⚡)
+   - Verifique no painel _Schemas_ → `ecommerce_db` → _Tables_: devem aparecer 6 tabelas com dados
 
 4. **Confira/ajuste a conexão em `config/Connection.php`**
 
@@ -260,6 +350,7 @@ php -S localhost:8000
    - Catálogo: `http://localhost/ecommerce/`
    - Admin: `http://localhost/ecommerce/src/views/admin/login.php`
    - Login admin: `admin@loja.com` / `admin123`
+   - Login cliente (seeds): `joao@email.com` / `password`
 
 **Dica:** Se der erro 404 no admin, verifique se o Apache está servindo a pasta correta (DocumentRoot do XAMPP aponta para `C:\xampp\htdocs`).
 
@@ -282,4 +373,6 @@ O resto (host, porta, banco, usuário) costuma funcionar como está.
 - **PHP 7.4+** — linguagem principal
 - **MySQL 5.7+/8.0** — banco de dados relacional
 - **Tailwind CSS (CDN)** — utilitários de estilo, responsivo mobile-first
-- **jQuery (CDN)** — AJAX simples no carrinho e exclusões admin
+- **jQuery (CDN)** — AJAX simples no carrinho, exclusões admin, máscaras e ViaCEP
+- **password_hash / password_verify** — BCrypt nativo do PHP para senhas
+- **ViaCEP API** — autocomplete de endereço via CEP (gratuito, sem chave)
