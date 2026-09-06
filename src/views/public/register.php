@@ -82,6 +82,10 @@
                 Cadastrar
             </button>
         </form>
+
+        <p class="text-center text-sm text-gray-600 mt-4">
+            Já tem conta? <a href="login.php" class="text-blue-600 hover:underline">Faça login</a>
+        </p>
     </div>
     <script>
         $('#form-register').submit(function(e) {
