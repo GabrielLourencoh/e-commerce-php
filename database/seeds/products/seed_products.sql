@@ -1,0 +1,22 @@
+-- Seed Products
+INSERT INTO products (category_id, name, description, price, stock, image, active) VALUES 
+(1, 'Fone de Ouvido Bluetooth', 'Fone de ouvido sem fio com cancelamento de ruído.', 199.90, 15, 'https://via.placeholder.com/300', 1),
+(1, 'Smartwatch Esportivo', 'Relógio inteligente com medidor de frequência cardíaca.', 299.00, 8, 'https://via.placeholder.com/300', 1),
+(2, 'Camiseta Algodão Premium', 'Camiseta 100% algodão super macia e confortável.', 59.90, 30, 'https://via.placeholder.com/300', 1),
+(2, 'Tênis Casual Urbano', 'Tênis leve e resistente para uso diário.', 189.99, 12, 'https://via.placeholder.com/300', 1),
+(3, 'Luminária de Mesa LED', 'Luminária com ajuste de brilho e luz fria/quente.', 89.90, 20, 'https://via.placeholder.com/300', 1),
+(4, 'Bola de Futebol Oficial', 'Bola de futebol tamanho 5, aprovada pela FIFA.', 129.90, 25, 'https://via.placeholder.com/300', 1),
+(5, 'Perfume Amadeirado 100ml', 'Fragrância masculina amadeirada de longa duração.', 249.90, 10, 'https://via.placeholder.com/300', 1),
+(6, 'Livro: Clean Code', 'Guia de boas práticas de programação por Robert Martin.', 89.90, 50, 'https://via.placeholder.com/300', 1),
+(7, 'Lego Classic 500 peças', 'Kit de blocos de montar criativo para crianças.', 199.90, 18, 'https://via.placeholder.com/300', 1),
+(8, 'Carregador Veicular 30W', 'Carregador rápido USB-C para carro.', 79.90, 35, 'https://via.placeholder.com/300', 1),
+(9, 'Ração Premium Cães 10kg', 'Ração super premium para cães adultos.', 159.90, 22, 'https://via.placeholder.com/300', 1),
+(10, 'Teclado Mecânico RGB', 'Teclado gamer com switches blue e iluminação RGB.', 349.90, 7, 'https://via.placeholder.com/300', 1),
+(3, 'Jogo de Panelas Antiaderente', 'Conjunto 5 peças com revestimento cerâmico.', 219.90, 14, 'https://via.placeholder.com/300', 1),
+(4, 'Esteira Elétrica Residencial', 'Esteira dobrável com inclinação automática.', 1899.00, 3, 'https://via.placeholder.com/300', 1),
+(5, 'Kit Skincare Completo', 'Limpeza, tônico, sérum e hidratante facial.', 179.90, 16, 'https://via.placeholder.com/300', 1),
+(6, 'Kindle Paperwhite 16GB', 'Leitor digital com tela 6.8" e luz ajustável.', 549.90, 9, 'https://via.placeholder.com/300', 1),
+(7, 'Boneca Articulada Fashion', 'Boneca com roupas e acessórios intercambiáveis.', 89.90, 28, 'https://via.placeholder.com/300', 1),
+(8, 'Câmera de Ré Automotiva', 'Câmera noturna com guias de estacionamento.', 129.90, 20, 'https://via.placeholder.com/300', 1),
+(9, 'Arranhador para Gatos Grande', 'Arranhador com toca e plataformas.', 149.90, 11, 'https://via.placeholder.com/300', 1),
+(10, 'Monitor Gamer 27" 144Hz', 'Monitor IPS 1ms FreeSync/G-Sync.', 899.90, 6, 'https://via.placeholder.com/300', 1);
