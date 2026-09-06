@@ -51,7 +51,7 @@
 <body class="bg-gray-100 min-h-screen">
     <header class="bg-white shadow-sm border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="../../../index.php" class="text-2xl font-bold text-blue-600">E-commerce</a>
+            <a href="../../../index.php" class="text-2xl font-bold text-gray-900">E-commerce</a>
             <a href="../../../index.php" class="text-sm text-gray-600 hover:underline">← Voltar para Loja</a>
         </div>
     </header>

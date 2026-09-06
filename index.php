@@ -29,7 +29,7 @@
 <body class="bg-gray-100 min-h-screen">
     <header class="bg-white shadow-sm border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.php" class="text-2xl font-bold text-blue-600">E-commerce</a>
+            <a href="index.php" class="text-2xl font-bold text-gray-900">E-commerce</a>
 
             <div class="flex items-center space-x-4">
                 <a href="src/views/public/cart.php" class="text-sm font-medium text-gray-700 hover:text-blue-600">
@@ -53,7 +53,7 @@
     </header>
 
     <main class="max-w-6xl mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Produtos em Destaque</h1>
+        <h1 class="text-2xl font-bold text-gray-700 mb-6">Produtos em Destaque</h1>
         
         <?php if (empty($products)): ?>
             <p class="text-gray-500">Nenhum produto cadastrado no momento.</p>
