@@ -26,7 +26,7 @@
 
     foreach ($_SESSION['cart'] as $productId => $quantity) {
         $product = $productDAO->getById($productId);
-        if ($product) {
+        if ($product && $product['active'] == 1) {
             $subtotal = $product['price'] * $quantity;
             $totalAmount += $subtotal;
 

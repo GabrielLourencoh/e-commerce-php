@@ -10,7 +10,7 @@
     if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
         foreach ($_SESSION['cart'] as $id => $qty) {
             $product = $productDAO->getById($id);
-            if ($product) {
+            if ($product && $product['active'] == 1) {
                 $product['cart_qty'] = $qty;
                 $product['subtotal'] = $product['price'] * $qty;
                 $total += $product['subtotal'];

@@ -9,7 +9,7 @@
     }
 
     $categoryDAO = new CategoryDAO();
-    $categories = $categoryDAO->getCategories();
+    $categories = $categoryDAO->getAllCategories();
 ?>
 
 

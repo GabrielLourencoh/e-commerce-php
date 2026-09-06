@@ -9,7 +9,7 @@
     require_once __DIR__ . '/../../../dao/products/ProductDAO.php';
 
     $productDAO = new ProductDAO();
-    $products = $productDAO->getProducts();
+    $products = $productDAO->getAllProducts();
 ?>
 
 

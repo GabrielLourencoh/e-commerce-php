@@ -13,6 +13,14 @@ class CategoryDAO {
     }
 
     public function getCategories() {
+        $sql = "SELECT * FROM categories WHERE active = 1 ORDER BY id DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllCategories() {
         $sql = "SELECT * FROM categories ORDER BY id DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -71,21 +79,27 @@ class CategoryDAO {
 
     public function delete($id) {
         try {
-            $sql = "DELETE FROM categories WHERE id = :id";
+            $sqlCheck = "SELECT COUNT(*) as total FROM products WHERE category_id = :id";
+            $stmtCheck = $this->conn->prepare($sqlCheck);
+            $stmtCheck->bindValue(':id', $id);
+            $stmtCheck->execute();
+            $count = $stmtCheck->fetch(PDO::FETCH_ASSOC)['total'];
+
+            if ($count > 0) {
+                return "Não é possível excluir esta categoria pois existem {$count} produto(s) associado(s) a ela!";
+            }
+
+            $sql = "UPDATE categories SET active = 0 WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':id', $id);
             $stmt->execute();
 
             if ($stmt->rowCount() == 0) {
-                return "Erro ao excluir a categoria!";
+                return "Categoria não encontrada!";
             }
 
             return "sucesso";
         } catch (PDOException $e) {
-            // Codigo vindo do erro -> 23000 indica erro de restrição de chave estrangeira
-            if ($e->getCode() == '23000') {
-                return "Não é possível excluir esta categoria pois existem produtos associados a ela!";
-            }
             return "Erro no banco de dados: ".$e->getMessage();
         }
     }
