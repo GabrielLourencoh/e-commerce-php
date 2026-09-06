@@ -58,18 +58,24 @@ class ClientDAO {
     }
 
     public function login($email, $password) {
-        $sql = "SELECT id, name, email FROM clients WHERE email = :email AND password = :password";
+        $sql = "SELECT id, name, email, password FROM clients WHERE email = :email";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':password', $password);
         $stmt->execute();
 
         if ($stmt->rowCount() == 0) {
             return false;
         }
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!password_verify($password, $user['password'])) {
+            return false;
+        }
+
+        unset($user['password']);
+        return $user;
     }
 
     public function getById($id) {
