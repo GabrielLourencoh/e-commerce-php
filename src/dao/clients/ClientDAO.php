@@ -94,5 +94,24 @@ class ClientDAO {
         $stmt->bindValue(':id', $id);
         return $stmt->execute();
     }
+
+    public function getAll() {
+        $sql = "SELECT id, name, email, cpf, phone, city, state, created_at FROM clients ORDER BY id DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getByIdFull($id) {
+        $sql = "SELECT * FROM clients WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>
