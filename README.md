@@ -174,7 +174,7 @@ CREATE TABLE order_items (
 
 ### Seeds (`database/seeds/`)
 
-Dados de exemplo organizados por tabela (sem IDs, `AUTO_INCREMENT` cuida):
+Dados de exemplo organizados por tabela:
 
 ```
 database/seeds/
