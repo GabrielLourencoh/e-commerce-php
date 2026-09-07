@@ -8,6 +8,10 @@ Projeto de loja virtual desenvolvido em PHP puro com MySQL. Estrutura MVC (Model
 
 ```
 e-commerce/
+├── assets/
+│   └── public/
+│       └── images/
+│           └── products/       # Imagens dos produtos (upload local)
 ├── config/
 │   └── Connection.php          # Conexão PDO com MySQL
 ├── database/
@@ -82,7 +86,7 @@ e-commerce/
 - **Login separado** para admins (tabela `admins` independente de `clients`)
 - **Dashboard** — visão geral
 - **CRUD de Categorias** — create, list, update, delete
-- **CRUD de Produtos** — create, list, update, delete; associação com categoria; controle de estoque
+- **CRUD de Produtos** — create, list, update, delete; associação com categoria; controle de estoque; upload de imagem local (JPG, PNG, WebP, AVIF ≤ 2MB); nomes únicos automáticos; preview no update; soft delete preserva arquivo
 - **Gestão de Pedidos** — lista todos; visualiza detalhes com itens; altera status (Pendente, Pago, Processando, Enviado, Entregue, Cancelado)
 
 ---
@@ -180,14 +184,14 @@ Dados de exemplo organizados por tabela:
 database/seeds/
 ├── seed_all.sql                    # Master - roda tudo na ordem (FKs primeiro)
 ├── categories/seed_categories.sql  # 10 categorias
-├── products/seed_products.sql      # 20 produtos
+├── products/seed_products.sql      # 5 produtos (com imagens locais)
 ├── clients/seed_clients.sql        # 10 clientes (senha = "password" hashed)
 ├── admins/seed_admins.sql          # 2 admins originais
 ├── orders/seed_orders.sql          # 10 pedidos com status variados
-└── order_items/seed_order_items.sql # 14 itens
+└── order_items/seed_order_items.sql # 11 itens
 ```
 
-**Como popular o banco:**
+**Como popular o banco (via MySQL CLI):**
 
 ```bash
 # 1. Cria estrutura
@@ -212,7 +216,7 @@ mysql -u root -p ecommerce_db < database/seeds/order_items/seed_order_items.sql
 
 **Ou abra cada arquivo no MySQL Workbench** (File → Open SQL Script → Execute ⚡) na mesma ordem acima.
 
-**Dados incluídos:** 10 categorias, 20 produtos, 10 clientes, 2 admins, 10 pedidos, 14 itens.
+**Dados incluídos:** 10 categorias, 5 produtos, 10 clientes, 2 admins, 10 pedidos, 11 itens.
 
 ---
 
@@ -229,6 +233,14 @@ mysql -u root -p ecommerce_db < database/seeds/categories/seed_categories.sql
 mysql -u root -p ecommerce_db < database/seeds/products/seed_products.sql
 # ...
 ```
+
+**Produtos seedados (5) — imagens em `assets/public/images/products/`:**
+
+- `notebook.webp` → Notebook Gamer RTX 4060
+- `teclado.jpg` → Teclado Mecânico RGB Switch Blue
+- `mouse.avif` → Mouse Gamer Sem Fio 16000 DPI
+- `cadeira.webp` → Cadeira Gamer Ergonômica
+- `pen-drive.avif` → Pen Drive 128GB USB 3.2
 
 ## Segurança: Hash de Senhas
 
@@ -251,7 +263,24 @@ mysql -u root -p ecommerce_db < database/seeds/products/seed_products.sql
 
 ---
 
-## Comandos SQL Úteis (explicados com base no schema do projeto)
+## Upload de Imagem de Produto (Admin)
+
+**Fluxo:**
+
+1. Admin acessa _Novo Produto_ ou _Editar Produto_
+2. Seleciona arquivo no input `type="file"` (accept: `image/jpeg,image/png,image/webp,image/avif`)
+3. Form envia `multipart/form-data` via AJAX (`FormData`)
+4. `ProductController` valida:
+   - Tipo MIME real via `finfo` (não confia na extensão)
+   - Tamanho ≤ 2MB
+5. Gera nome único: `produto_{timestamp}_{random}.{ext}`
+6. Salva em `assets/public/images/products/`
+7. Grava caminho relativo no banco: `assets/public/images/products/produto_1234567890_abcd.webp`
+8. Catálogo público (`index.php`) usa `<img src="<?= $product['image'] ?>">` — caminho relativo à raiz funciona direto
+
+**Atualização:** Se enviar nova imagem → apaga a antiga e substitui. Se deixar vazio → mantém a atual.
+
+**Exclusão (soft delete):** Apenas seta `active=0` — **não apaga o arquivo** para permitir reativação com imagem intacta.
 
 | Comando                         | O que faz                                                           | Exemplo no projeto                                                                      |
 | ------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
