@@ -45,14 +45,15 @@
 
         public function insert(Product $product) {
             try {
-                $sql = "INSERT INTO products (category_id, name, description, price, stock, active) 
-                        VALUES (:category_id, :name, :description, :price, :stock, :active)";
+                $sql = "INSERT INTO products (category_id, name, description, price, stock, image, active) 
+                        VALUES (:category_id, :name, :description, :price, :stock, :image, :active)";
                 $stmt = $this->conn->prepare($sql);
                 $stmt->bindValue(':category_id', $product->getCategoryId());
                 $stmt->bindValue(':name', $product->getName());
                 $stmt->bindValue(':description', $product->getDescription());
                 $stmt->bindValue(':price', $product->getPrice());
                 $stmt->bindValue(':stock', $product->getStock());
+                $stmt->bindValue(':image', $product->getImage());
                 $stmt->bindValue(':active', $product->getActive());
                 $stmt->execute();
 
@@ -70,7 +71,7 @@
             try {
                 $sql = "UPDATE products 
                         SET category_id = :category_id, name = :name, description = :description, 
-                            price = :price, stock = :stock, active = :active 
+                            price = :price, stock = :stock, image = :image, active = :active 
                         WHERE id = :id";
                 $stmt = $this->conn->prepare($sql);
                 $stmt->bindValue(':category_id', $product->getCategoryId());
@@ -78,6 +79,7 @@
                 $stmt->bindValue(':description', $product->getDescription());
                 $stmt->bindValue(':price', $product->getPrice());
                 $stmt->bindValue(':stock', $product->getStock());
+                $stmt->bindValue(':image', $product->getImage());
                 $stmt->bindValue(':active', $product->getActive());
                 $stmt->bindValue(':id', $product->getId());
                 $stmt->execute();
