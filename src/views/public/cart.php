@@ -10,7 +10,7 @@
     if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
         foreach ($_SESSION['cart'] as $id => $qty) {
             $product = $productDAO->getById($id);
-            if ($product) {
+            if ($product && $product['active'] == 1) {
                 $product['cart_qty'] = $qty;
                 $product['subtotal'] = $product['price'] * $qty;
                 $total += $product['subtotal'];
@@ -25,15 +25,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Carrinho - E-commerce</title>
+    <title>Meu Carrinho</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
     <header class="bg-white shadow-sm border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="../../../index.php" class="text-2xl font-bold text-blue-600">E-commerce</a>
-            <a href="../../../index.php" class="text-sm text-gray-600 hover:underline">Continuar Comprando</a>
+            <a href="../../../index.php" class="text-2xl font-bold text-gray-900">E-commerce</a>
+            <a href="../../../index.php" class="text-sm bg-gray-800 hover:bg-gray-900 text-white px-3 py-1.5 rounded transition-colors">Continuar Comprando</a>
         </div>
     </header>
 
@@ -43,7 +43,7 @@
         <?php if (empty($cartProducts)): ?>
             <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center">
                 <p class="text-gray-600 mb-4">Seu carrinho está vazio.</p>
-                <a href="../../../index.php" class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded">Ver Produtos</a>
+                <a href="../../../index.php" class="inline-block bg-gray-800 hover:bg-gray-900 text-white text-sm px-4 py-2 rounded">Ver Produtos</a>
             </div>
         <?php else: ?>
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
@@ -80,11 +80,11 @@
                 </div>
 
                 <?php if (isset($_SESSION['client_id'])): ?>
-                    <button id="btn-checkout" class="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2.5 rounded text-sm transition-colors">
+                    <button id="btn-checkout" class="bg-gray-800 hover:bg-gray-900 text-white font-medium px-6 py-2.5 rounded text-sm transition-colors">
                         Finalizar Compra
                     </button>
                 <?php else: ?>
-                    <a href="login.php" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded text-sm transition-colors">
+                    <a href="login.php" class="bg-gray-800 hover:bg-gray-900 text-white font-medium px-6 py-2.5 rounded text-sm transition-colors">
                         Faça Login para Finalizar
                     </a>
                 <?php endif; ?>

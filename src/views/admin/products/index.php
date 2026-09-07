@@ -9,7 +9,7 @@
     require_once __DIR__ . '/../../../dao/products/ProductDAO.php';
 
     $productDAO = new ProductDAO();
-    $products = $productDAO->getProducts();
+    $products = $productDAO->getAllProducts();
 ?>
 
 
@@ -38,6 +38,9 @@
                 </a>
                 <a href="index.php" class="block py-2.5 px-4 rounded bg-gray-800 text-white font-medium text-sm transition-colors">
                     Produtos
+                </a>
+                <a href="../clients/index.php" class="block py-2.5 px-4 rounded hover:bg-gray-800 text-gray-300 font-medium text-sm transition-colors">
+                    Clientes
                 </a>
                 <a href="../orders/index.php" class="block py-2.5 px-4 rounded hover:bg-gray-800 text-gray-300 font-medium text-sm transition-colors">
                     Pedidos

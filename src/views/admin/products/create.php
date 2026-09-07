@@ -24,7 +24,7 @@
     <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-sm border border-gray-200">
         <h2 class="text-xl font-bold text-gray-800 mb-4">Cadastrar Produto</h2>
         <div id="mensagem" class="hidden mb-4 p-3 rounded text-sm text-center font-medium"></div>
-        <form id="form-product-create" class="space-y-4">
+        <form id="form-product-create" class="space-y-4" enctype="multipart/form-data">
             <input type="hidden" name="action" value="create">
 
             <div>
@@ -54,6 +54,11 @@
                     <input type="number" name="stock" value="0" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
                 </div>
             </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Imagem do Produto</label>
+                <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/avif" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500">
+                <p class="text-xs text-gray-500 mt-1">JPG, PNG, WebP ou AVIF. Máx. 2MB.</p>
+            </div>
             <div class="flex items-center">
                 <input type="checkbox" name="active" value="1" id="active" checked class="h-4 w-4 text-blue-600 rounded">
                 <label for="active" class="ml-2 text-sm text-gray-700">Produto Ativo</label>
@@ -71,10 +76,14 @@
         $('#form-product-create').submit(function(e) {
             e.preventDefault();
 
+            var formData = new FormData(this);
+
             $.ajax({
                 url: '../../../controllers/products/ProductController.php',
                 type: 'POST',
-                data: $(this).serialize(),
+                data: formData,
+                processData: false,
+                contentType: false,
                 success: function(response) {
                     if (response.trim() === 'sucesso') {
                         window.location.href = 'index.php';

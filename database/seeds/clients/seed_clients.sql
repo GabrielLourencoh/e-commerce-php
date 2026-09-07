@@ -1,0 +1,12 @@
+-- Seed Clients (senha = "password" via password_hash)
+INSERT INTO clients (name, email, password, cpf, phone, address, number, complement, neighborhood, city, state, cep) VALUES 
+('João Silva', 'joao@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '123.456.789-00', '(11) 99999-8888', 'Rua das Flores', '123', 'Apto 45', 'Centro', 'São Paulo', 'SP', '01000-000'),
+('Maria Santos', 'maria@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '234.567.890-11', '(11) 98888-7777', 'Av. Paulista', '1000', '', 'Bela Vista', 'São Paulo', 'SP', '01310-100'),
+('Pedro Oliveira', 'pedro@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '345.678.901-22', '(21) 97777-6666', 'Rua do Catete', '50', 'Casa', 'Catete', 'Rio de Janeiro', 'RJ', '22220-000'),
+('Ana Costa', 'ana@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '456.789.012-33', '(31) 96666-5555', 'Av. Afonso Pena', '800', 'Bloco B', 'Centro', 'Belo Horizonte', 'MG', '30130-000'),
+('Carlos Ferreira', 'carlos@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '567.890.123-44', '(41) 95555-4444', 'Rua XV de Novembro', '200', '', 'Centro', 'Curitiba', 'PR', '80020-310'),
+('Juliana Lima', 'juliana@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '678.901.234-55', '(51) 94444-3333', 'Av. Borges de Medeiros', '400', 'Sala 10', 'Centro Histórico', 'Porto Alegre', 'RS', '90020-020'),
+('Roberto Alves', 'roberto@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '789.012.345-66', '(61) 93333-2222', 'SHS Quadra 6', 'Bloco C', '', 'Asa Sul', 'Brasília', 'DF', '70316-906'),
+('Fernanda Rocha', 'fernanda@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '890.123.456-77', '(71) 92222-1111', 'Av. Sete de Setembro', '1500', 'Apto 201', 'Barra', 'Salvador', 'BA', '40060-001'),
+('Lucas Martins', 'lucas@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '901.234.567-88', '(81) 91111-0000', 'Rua do Futuro', '300', '', 'Boa Viagem', 'Recife', 'PE', '51020-000'),
+('Patrícia Gomes', 'patricia@email.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '012.345.678-99', '(85) 90000-9999', 'Av. Beira Mar', '2500', 'Cobertura', 'Meireles', 'Fortaleza', 'CE', '60165-121');

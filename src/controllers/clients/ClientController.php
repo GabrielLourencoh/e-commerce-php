@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client = new Client();
     $client->setName($_POST['name']);
     $client->setEmail($_POST['email']);
-    $client->setPassword($_POST['password']);
+    $client->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
     $client->setCpf($_POST['cpf']);
     $client->setPhone($_POST['phone']);
     $client->setAddress($_POST['address']);

@@ -16,6 +16,7 @@
     $stmt->execute();
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -28,7 +29,7 @@
 <body class="bg-gray-100 min-h-screen">
     <header class="bg-white shadow-sm border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.php" class="text-2xl font-bold text-blue-600">E-commerce</a>
+            <a href="index.php" class="text-2xl font-bold text-gray-900">E-commerce</a>
 
             <div class="flex items-center space-x-4">
                 <a href="src/views/public/cart.php" class="text-sm font-medium text-gray-700 hover:text-blue-600">
@@ -37,6 +38,11 @@
 
                 <?php if (isset($_SESSION['client_id'])): ?>
                     <span class="text-sm font-medium text-gray-700">Olá, <?= $_SESSION['client_name'] ?></span>
+                    
+                    <a href="src/views/public/profile.php" class="text-sm font-medium text-blue-600 hover:underline">
+                        Meu Perfil
+                    </a>
+
                     <a href="src/controllers/clients/LogoutController.php" class="text-sm text-red-600 hover:underline">Sair</a>
                 <?php else: ?>
                     <a href="src/views/public/login.php" class="text-sm font-medium text-gray-700 hover:text-blue-600">Entrar</a>
@@ -45,8 +51,10 @@
             </div>
         </div>
     </header>
+
     <main class="max-w-6xl mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Produtos em Destaque</h1>
+        <h1 class="text-2xl font-bold text-gray-700 mb-6">Produtos em Destaque</h1>
+        
         <?php if (empty($products)): ?>
             <p class="text-gray-500">Nenhum produto cadastrado no momento.</p>
         <?php else: ?>
@@ -64,8 +72,6 @@
 
                             <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
                                 <span class="text-lg font-bold text-gray-900">R$ <?= number_format($product['price'], 2, ',', '.') ?></span>
-                                
-                                <!-- Botão chama a função AJAX de adicionar ao carrinho -->
                                 <button onclick="addToCart(<?= $product['id'] ?>)" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded transition-colors">
                                     Comprar
                                 </button>
@@ -88,7 +94,6 @@
                 },
                 success: function(response) {
                     if (response.trim() === 'sucesso') {
-                        // Redireciona para a página do carrinho ao clicar em comprar
                         window.location.href = 'src/views/public/cart.php';
                     } else {
                         alert(response);
