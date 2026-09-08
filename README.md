@@ -51,20 +51,38 @@ e-commerce/
 │   │   ├── admins/Admin.php
 │   │   ├── categories/Category.php
 │   │   ├── clients/Client.php
-│   │   ├── orders/Order.php
 │   │   └── products/Product.php
 │   └── views/                  # Templates HTML + PHP
 │       ├── admin/
 │       │   ├── login.php
 │       │   ├── dashboard.php
-│       │   ├── categories/ (create, index, update)
-│       │   ├── products/ (create, index, update)
-│       │   └── orders/ (index, view)
-│       └── public/
-│           ├── cart.php        # Carrinho de compras
-│           ├── login.php
-│           ├── register.php
-│           └── profile.php
+│       │   ├── categories/
+│       │   │   ├── create.php
+│       │   │   ├── index.php
+│       │   │   └── update.php
+│       │   ├── products/
+│       │   │   ├── create.php
+│       │   │   ├── index.php
+│       │   │   └── update.php
+│       │   ├── orders/
+│       │   │   ├── index.php
+│       │   │   └── view.php
+│       │   └── clients/
+│       │       ├── index.php
+│       │       └── view.php
+│       ├── public/
+│       │   ├── cart.php              # Carrinho de compras
+│       │   ├── login.php
+│       │   ├── register.php
+│       │   ├── profile.php
+│       │   ├── faq.php               # Perguntas frequentes
+│       │   ├── exchange-policy.php   # Política de troca e devolução
+│       │   ├── shipping.php          # Frete e prazos
+│       │   ├── terms.php             # Termos de uso
+│       │   ├── privacy.php           # Política de privacidade (LGPD)
+│       │   └── cookies.php           # Política de cookies
+│       └── partials/
+│           └── footer.php            # Rodapé compartilhado
 └── index.php                   # Entry point - carrega catálogo
 ```
 
@@ -80,6 +98,7 @@ e-commerce/
 - **Cadastro com máscaras e autocomplete** — CPF (`000.000.000-00`), telefone (`(00) 00000-0000`), CEP (`00000-000`), UF (maiúsculo); **ViaCEP** preenche endereço/bairro/cidade/estado ao sair do campo CEP
 - **Perfil do cliente** — visualiza e edita dados pessoais + endereço
 - **Finalização de pedido** — cria registro em `orders` + itens em `order_items`; guarda `unit_price` no momento da compra (histórico imutável); limpa carrinho após sucesso
+- **Páginas institucionais** — FAQ, Termos de uso, Política de privacidade (LGPD), Política de cookies, Frete e prazos, Política de troca e devolução; acessíveis via footer e header; sessão compartilhada para mostrar usuário logado
 
 ### Área Administrativa
 
