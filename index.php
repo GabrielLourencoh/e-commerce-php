@@ -82,6 +82,9 @@
             </div>
         <?php endif; ?>
     </main>
+
+    <?php $basePath = ''; require_once __DIR__ . '/src/views/partials/footer.php'; ?>
+
     <script>
         function addToCart(productId) {
             $.ajax({
