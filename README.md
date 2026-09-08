@@ -51,20 +51,32 @@ e-commerce/
 │   │   ├── admins/Admin.php
 │   │   ├── categories/Category.php
 │   │   ├── clients/Client.php
-│   │   ├── orders/Order.php
 │   │   └── products/Product.php
 │   └── views/                  # Templates HTML + PHP
 │       ├── admin/
 │       │   ├── login.php
 │       │   ├── dashboard.php
-│       │   ├── categories/ (create, index, update)
-│       │   ├── products/ (create, index, update)
-│       │   └── orders/ (index, view)
-│       └── public/
-│           ├── cart.php        # Carrinho de compras
-│           ├── login.php
-│           ├── register.php
-│           └── profile.php
+│       │   ├── categories/
+│       │   │   ├── create.php
+│       │   │   ├── index.php
+│       │   │   └── update.php
+│       │   ├── products/
+│       │   │   ├── create.php
+│       │   │   ├── index.php
+│       │   │   └── update.php
+│       │   ├── orders/
+│       │   │   ├── index.php
+│       │   │   └── view.php
+│       │   └── clients/
+│       │       ├── index.php
+│       │       └── view.php
+│       ├── public/
+│       │   ├── cart.php        # Carrinho de compras
+│       │   ├── login.php
+│       │   ├── register.php
+│       │   └── profile.php
+│       └── partials/
+│           └── footer.php      # Rodapé compartilhado
 └── index.php                   # Entry point - carrega catálogo
 ```
 
