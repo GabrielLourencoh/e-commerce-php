@@ -98,6 +98,7 @@ e-commerce/
 - **Cadastro com máscaras e autocomplete** — CPF (`000.000.000-00`), telefone (`(00) 00000-0000`), CEP (`00000-000`), UF (maiúsculo); **ViaCEP** preenche endereço/bairro/cidade/estado ao sair do campo CEP
 - **Perfil do cliente** — visualiza e edita dados pessoais + endereço
 - **Finalização de pedido** — cria registro em `orders` + itens em `order_items`; guarda `unit_price` no momento da compra (histórico imutável); limpa carrinho após sucesso
+- **Páginas institucionais** — FAQ, Termos de uso, Política de privacidade (LGPD), Política de cookies, Frete e prazos, Política de troca e devolução; acessíveis via footer e header; sessão compartilhada para mostrar usuário logado
 
 ### Área Administrativa
 
