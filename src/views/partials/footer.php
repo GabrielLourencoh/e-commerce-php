@@ -37,19 +37,18 @@ $basePath = $basePath ?? '';
             <div>
                 <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Suporte</h4>
                 <nav class="space-y-2 text-sm">
-                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">FAQ</a>
-                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Política de troca</a>
-                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Frete e prazos</a>
-                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Contato</a>
+                    <a href="<?= $basePath ?>src/views/public/faq.php" class="block text-gray-400 hover:text-white transition-colors">FAQ</a>
+                    <a href="<?= $basePath ?>src/views/public/exchange-policy.php" class="block text-gray-400 hover:text-white transition-colors">Política de troca</a>
+                    <a href="<?= $basePath ?>src/views/public/shipping.php" class="block text-gray-400 hover:text-white transition-colors">Frete e prazos</a>
                 </nav>
             </div>
 
             <div>
                 <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Legal</h4>
                 <nav class="space-y-2 text-sm">
-                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Termos de uso</a>
-                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Política de privacidade</a>
-                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Cookies</a>
+                    <a href="<?= $basePath ?>src/views/public/terms.php" class="block text-gray-400 hover:text-white transition-colors">Termos de uso</a>
+                    <a href="<?= $basePath ?>src/views/public/privacy.php" class="block text-gray-400 hover:text-white transition-colors">Política de privacidade</a>
+                    <a href="<?= $basePath ?>src/views/public/cookies.php" class="block text-gray-400 hover:text-white transition-colors">Cookies</a>
                 </nav>
             </div>
         </div>

@@ -71,12 +71,18 @@ e-commerce/
 │       │       ├── index.php
 │       │       └── view.php
 │       ├── public/
-│       │   ├── cart.php        # Carrinho de compras
+│       │   ├── cart.php              # Carrinho de compras
 │       │   ├── login.php
 │       │   ├── register.php
-│       │   └── profile.php
+│       │   ├── profile.php
+│       │   ├── faq.php               # Perguntas frequentes
+│       │   ├── exchange-policy.php   # Política de troca e devolução
+│       │   ├── shipping.php          # Frete e prazos
+│       │   ├── terms.php             # Termos de uso
+│       │   ├── privacy.php           # Política de privacidade (LGPD)
+│       │   └── cookies.php           # Política de cookies
 │       └── partials/
-│           └── footer.php      # Rodapé compartilhado
+│           └── footer.php            # Rodapé compartilhado
 └── index.php                   # Entry point - carrega catálogo
 ```
 
